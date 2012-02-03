@@ -1,13 +1,21 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <getopt.h>
 
 void help();
 void add_todo(char string[]);
+void list();
 
 int main(int argc, char *argv[])
 {
 	int c;
+	unsigned int iseed = (unsigned int)time(NULL);
+	srand(iseed);
 
+	if(argc == 1){
+		list();
+		return 0;
+	}
 	while (1)
 	{
 		static struct option long_options[] =
@@ -24,6 +32,7 @@ int main(int argc, char *argv[])
 
 		switch(c)
 		{
+
 			case 'h':
 			help();
 			break;
@@ -43,9 +52,21 @@ void help()
 
 void add_todo(char string[])
 {
+	int id = (unsigned int)(rand()/100000.0);
+
 	FILE *fp;
-	fp = fopen("todofile", "a");
-	fprintf(fp, "%s\n", string);
+	fp = fopen("todofile", "ar");
+	fprintf(fp, "%d\t%s\n", id, string);
 	fclose(fp);
-	printf("%s\n", string);
+
+
+	printf("Added task with id %d:\t%s\n", id, string);
+}
+
+void list()
+{
+	FILE *fp;
+	if((fp = fopen("todofile", "r")) == NULL){
+		//ERROR
+	}
 }
