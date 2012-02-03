@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 			case 'a':
 			add_todo(optarg);
 			break;
+			
 		}
 	}
 }
@@ -42,5 +43,9 @@ void help()
 
 void add_todo(char string[])
 {
+	FILE *fp;
+	fp = fopen("todofile", "a");
+	fprintf(fp, "%s\n", string);
+	fclose(fp);
 	printf("%s\n", string);
 }
