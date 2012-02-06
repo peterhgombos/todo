@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <getopt.h>
-
-void help();
-void add_todo(char string[]);
-void list();
+#include "todo.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +7,7 @@ int main(int argc, char *argv[])
 	srand(iseed);
 
 	if(argc == 1){
-		list();
+		list_all();
 		return 0;
 	}
 	while (1)
@@ -34,11 +28,11 @@ int main(int argc, char *argv[])
 		{
 
 			case 'h':
-			help();
+				help();
 			break;
 
 			case 'a':
-			add_todo(optarg);
+				add_todo(optarg);
 			break;
 			
 		}
@@ -63,10 +57,15 @@ void add_todo(char string[])
 	printf("Added task with id %d:\t%s\n", id, string);
 }
 
-void list()
+void list_all()
 {
 	FILE *fp;
 	if((fp = fopen("todofile", "r")) == NULL){
-		//ERROR
+		fprintf(stderr, "No tasks added\n");
+		return;
+	}
+	char line[4096];
+	while(fgets(line, sizeof(line), fp)){
+		printf("%s", line);
 	}
 }
