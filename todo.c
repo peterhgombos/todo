@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
 		static struct option long_options[] =
 		{
 			{"help",	no_argument,		0,	'h'},
-			{"add",		no_argument,	0,	'a'},
+			{"add",		no_argument,		0,	'a'},
+			{"list",	no_argument,		0,	'l'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
@@ -33,6 +34,10 @@ int main(int argc, char *argv[])
 
 			case 'a':
 				add_todo(optarg);
+			break;
+
+			case 'l':
+				list_id((int)optarg);
 			break;
 			
 		}
@@ -68,4 +73,14 @@ void list_all()
 	while(fgets(line, sizeof(line), fp)){
 		printf("%s", line);
 	}
+	fclose(fp);
+}
+
+void list_id(int id)
+{
+	if((fp = fopen("todofile", "r")) == NULL){
+		fprintf(stderr, "No tasks added\n");
+		return;
+	}
+
 }

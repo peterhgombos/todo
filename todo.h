@@ -5,3 +5,4 @@
 void help();
 void add_todo(char string[]);
 void list_all();
+void list_id(int id);
