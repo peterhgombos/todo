@@ -51,10 +51,10 @@ void help()
 
 void add_todo(char string[])
 {
-	int id = (unsigned int)(rand()/100000.0);
+	int id = (unsigned int)(rand()/100000.0); // todo: new id scheme
 
 	FILE *fp;
-	fp = fopen("todofile", "ar");
+	fp = open_list("ar");
 	fprintf(fp, "%d\t%s\n", id, string);
 	fclose(fp);
 
@@ -65,11 +65,8 @@ void add_todo(char string[])
 void list_all()
 {
 	FILE *fp;
-	if((fp = fopen("todofile", "r")) == NULL){
-		fprintf(stderr, "No tasks added\n");
-		return;
-	}
-	char line[4096];
+	fp = open_list("r");
+	char line[4096]; // todo: define line buffer somewhere
 	while(fgets(line, sizeof(line), fp)){
 		printf("%s", line);
 	}
@@ -78,9 +75,22 @@ void list_all()
 
 void list_id(int id)
 {
-	if((fp = fopen("todofile", "r")) == NULL){
-		fprintf(stderr, "No tasks added\n");
-		return;
-	}
+	FILE *fp;
+	fp = open_list("r");
 
+	fclose(fp);
 }
+
+FILE *open_list(char *mode)
+{
+	FILE *fp;
+	fp = fopen("todofile", mode); // todo: define filename somewhere
+	if (fp == NULL) {
+		fprintf(stderr, "No tasks added\n");
+		return; // todo: exit
+	}
+	// file opened properly; return FILE pointer
+	return fp;
+}
+
+
