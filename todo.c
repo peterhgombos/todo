@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 			break;
 
 			case 'l':
-				list_id((int)optarg);
+				list_id(atoi(optarg)); //todo: fix better casting
 			break;
 			
 		}
@@ -73,10 +73,19 @@ void list_all()
 	fclose(fp);
 }
 
+// show task with given id. too naive now.
 void list_id(int id)
 {
+	char id_string[32];
+	sprintf(id_string, "%s%d", 10, id);
 	FILE *fp;
 	fp = open_list("r");
+	char line[4096]; // todo: define line buffer somewhere
+	while(fgets(line, sizeof(line), fp)){
+		if(strstr(line, id_string)){
+			printf("%s", line);
+		}
+	}
 
 	fclose(fp);
 }
