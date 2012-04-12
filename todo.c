@@ -14,13 +14,13 @@ int main(int argc, char *argv[])
 	{
 		static struct option long_options[] =
 		{
-			{"help",	no_argument,		0,	'h'},
-			{"add",		no_argument,		0,	'a'},
-			{"list",	no_argument,		0,	'l'},
+			{"help",	no_argument,		NULL,	'h'},
+			{"add",     required_argument,		NULL,	'a'},
+			{"list",	required_argument,		NULL,	'l'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long(argc, argv, "hal:", long_options, &option_index);
+		c = getopt_long(argc, argv, "ha:l:", long_options, &option_index);
 
 		if(c == -1)
 			break;
@@ -77,7 +77,7 @@ void list_all()
 void list_id(int id)
 {
 	char id_string[32];
-	sprintf(id_string, "%s%d", 10, id);
+	sprintf(id_string, "%i",id);
 	FILE *fp;
 	fp = open_list("r");
 	char line[4096]; // todo: define line buffer somewhere
