@@ -117,7 +117,13 @@ FILE *open_list(char *mode)
 
 /* search each line in todofile for pattern*/
 void search(char string[]) {
+    regext_t reg;
 	FILE *fp;
+    char line[4096];
+
+    regcomp(&reg, string, 0);
 	fp = open_list("r");
+    while(fgets(line, sizeof(line), fp)){
+    }
 }
 
