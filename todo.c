@@ -22,12 +22,12 @@ int main(int argc, char *argv[])
 		{
 			{"help",	no_argument,		NULL,	'h'},
 			{"add",     required_argument,		NULL,	'a'},
-			{"list",	required_argument,		NULL,	'l'},
+			{"show",	required_argument,		NULL,	's'},
 			{"done",	required_argument,		NULL,	'd'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long(argc, argv, "ha:l:d:", long_options, &option_index);
+		c = getopt_long(argc, argv, "ha:s:d:", long_options, &option_index);
 
 		if(c == -1)
 			break;
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 				add_todo(optarg);
 			break;
 
-			case 'l':
+			case 's':
 				list_id(atoi(optarg)); //todo: fix better casting
 			break;
 
