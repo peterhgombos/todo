@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 			break;
 
 			case 'd':
-				remove_todo(atoi(optarg)); // todo: fix better casting
+				remove_todo(optarg); // todo: fix better casting
 			break;
 
 		}
@@ -115,10 +115,8 @@ void add_todo(char string[])
     free(id);
 }
 
-void remove_todo(int id)
+void remove_todo(char* id)
 {
-	char id_string[32];
-	sprintf(id_string, "%i", id);
 	FILE *fp;
 	char *list_buffer;
 
@@ -129,7 +127,7 @@ void remove_todo(int id)
 
 	char line [4096]; // todo: define line buffer somewhere
 	while(fgets(line, sizeof(line), fp)){
-		if(!strstr(line, id_string)) {
+		if(!strstr(line, id)) {
 			if(list_buffer[0] == '\0') {
 				sprintf(list_buffer, "%s", line);
 			} else {
