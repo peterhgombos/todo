@@ -1,10 +1,36 @@
 #include "todo.h"
 
+const char* mora[] = {"wa", "wi", "wu"  "we", "wo",
+                      "ra", "ri", "ru", "re", "ro",
+                      "ya", "yi", "yu", "ye", "yo",
+                      "ma", "mi", "mu", "me", "mo",
+                      "ha", "hi", "hu", "he", "ho",
+                      "na", "ni", "nu", "ne", "no",
+                      "ta", "ti", "tu", "te", "to",
+                      "sa", "si", "su", "se", "so",
+                      "ka", "ki", "ku", "ke", "ko"};
+
+#define MORA_LENGTH 45
+
+char* generate_id(){
+    char* id = malloc(5*sizeof(char));
+    sprintf(id, "%s%s", mora[rand()%MORA_LENGTH], mora[rand()%MORA_LENGTH]);
+    return id;
+}
+
+
+
 int main(int argc, char *argv[])
 {
 	int c;
 	unsigned int iseed = (unsigned int)time(NULL);
 	srand(iseed);
+    int i = 0;
+    for(i=0;i<20;i++){
+        printf("%s\n", generate_id());
+    }
+    return 0;
+
 
 	if(argc == 1){
 		list_all();
@@ -49,9 +75,10 @@ void help()
 	printf("This is the help file, should bring lots of help\n");
 }
 
+
 void add_todo(char string[])
 {
-	int id = (unsigned int)(rand()/100000.0); // todo: new id scheme
+    int id = (unsigned int)(rand()/100000.0); // todo: new id scheme
 
 	FILE *fp;
 	fp = open_list("ar");
@@ -101,5 +128,4 @@ FILE *open_list(char *mode)
 	// file opened properly; return FILE pointer
 	return fp;
 }
-
 
