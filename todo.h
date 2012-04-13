@@ -1,3 +1,5 @@
+#define FILENAME "todofile"
+
 void help();
 void add_todo(char string[]);
 void remove_todo(char*id);
