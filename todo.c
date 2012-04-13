@@ -6,6 +6,8 @@
 
 #include "todo.h"
 
+const char* colors[] = {"\033[0m", "\033[32m"};
+
 #define MORA_LENGTH 45
 const char* mora[] = {"wa", "wi", "wu", "we", "wo",
                       "ra", "ri", "ru", "re", "ro",
@@ -111,7 +113,7 @@ void add_todo(char string[])
 	fclose(fp);
 
 
-	printf("Added task with id %s:\t%s\n", id, string);
+	printf("Added task with id %s%s%s:\t%s\n",colors[COLOR_GREEN], id, colors[COLOR_RESET], string);
     free(id);
 }
 
@@ -134,7 +136,8 @@ void remove_todo(char* id)
 				sprintf(list_buffer, "%s%s", list_buffer, line);
 			}
 		} else {
-			printf("Removed task %s", line);
+			printf("Removed task ");
+            print_line_colored(line);
 		}
 	}
 
@@ -147,13 +150,25 @@ void remove_todo(char* id)
 	free(list_buffer);
 }
 
+void print_line_colored(char*line){
+    printf("%s",colors[COLOR_GREEN]);
+    int i = 0;
+    char c;
+    while((c = line[i++]) != '\0'){
+        if(c=='\t'){
+            printf("%s",colors[COLOR_RESET]);
+        }
+        printf("%c",c);
+    }
+}
+
 void list_all()
 {
 	FILE *fp;
 	fp = open_list("r");
 	char line[4096]; // todo: define line buffer somewhere
 	while(fp && fgets(line, sizeof(line), fp)){
-		printf("%s", line);
+        print_line_colored(line);
 	}
 	fclose(fp);
 }
@@ -166,7 +181,7 @@ void list_id(char* id)
 	char line[4096]; // todo: define line buffer somewhere
 	while(fp && fgets(line, sizeof(line), fp)){
 		if(strstr(line,id)){
-			printf("%s", line);
+            print_line_colored(line);
 		}
 	}
 
