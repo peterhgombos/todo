@@ -198,7 +198,9 @@ void list_id(char* id)
 FILE *open_list(char *mode)
 {
 	FILE *fp;
-	fp = fopen(FILENAME, mode); 
+    char todoFilePath[256]; 
+    sprintf(todoFilePath,"%s/%s", getenv("HOME")), FILENAME;
+	fp = fopen(todoFilePath, mode); 
 	if (fp == NULL) {
         fp = fopen(FILENAME, "w");
         fclose(fp);
