@@ -1,0 +1,35 @@
+.\" Manpage for todo.
+.\" Contact gombos@stud.ntnu.no to correct errors or typos.
+.TH todo 8 "13 April 2012" "0.1" "todo man page"
+.SH NAME
+todo \- a simple CLI todo list for *nix.
+.SH SYNOPSIS
+.br
+todo
+.br
+todo (-a|--add) <task>
+.br
+todo (-d|--done) <id>
+.br
+todo (-s|--show) <id>
+.br
+todo (-l|--list) <regex>
+.SH DESCRIPTION
+todo is a simple CLI todo for *nix.
+.SH OPTIONS
+.TP
+--add <task>, -a <task>
+This adds a task to the todo list.
+.TP
+--done <id>, -d <id>
+This marks a task as done, removing it from the list.
+.TP
+--show <id>, -s <id>
+This shows a single task.
+.TP
+--list <regex>, -l <regex>
+This searches all the tasks.
+.SH BUGS
+No support for ^ and $ in regex search.
+.SH AUTHOR
+Péter Gombos (gombos@stud.ntnu.no)
