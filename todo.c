@@ -106,4 +106,8 @@ FILE *open_list(char *mode)
 	return fp;
 }
 
+void search(char string[]) {
+	FILE *fp;
+	fp = open_list("r");
+}
 
