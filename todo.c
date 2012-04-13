@@ -123,7 +123,7 @@ void search(char string[]) {
 	FILE *fp;
     char line[4096];
 
-    if((err = regcomp(&reg, string, REG_NOSUB)) != 0){
+    if((err = regcomp(&reg, string, REG_NOSUB|REG_EXTENDED)) != 0){
         regerror(err, &reg, err_msg, 80);
         printf("Error analyzing regular expression '%s': %s.\n", string, err_msg);
     }
