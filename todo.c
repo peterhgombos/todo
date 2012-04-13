@@ -106,7 +106,12 @@ int main(int argc, char *argv[])
 
 void help()
 {
-	printf("This is the help file, should bring lots of help\n");
+    printf("Usage:\n");
+    printf("todo\n");
+    printf("todo (-a|--add) <task>\n");
+    printf("todo (-d|--done) <id>\n");
+    printf("todo (-s|--show) <id>\n");
+    printf("todo (-l|--list) <regex>\n");
 }
 
 
