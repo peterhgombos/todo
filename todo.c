@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <string.h>
+#include <time.h>
+
 #include "todo.h"
 
 #define MORA_LENGTH 45
@@ -56,10 +62,11 @@ int main(int argc, char *argv[])
 			{"help",	no_argument,		NULL,	'h'},
 			{"add",     required_argument,		NULL,	'a'},
 			{"show",	required_argument,		NULL,	's'},
+			{"done",	required_argument,		NULL,	'd'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long(argc, argv, "ha:s:", long_options, &option_index);
+		c = getopt_long(argc, argv, "ha:s:d:", long_options, &option_index);
 
 		if(c == -1)
 			break;
@@ -78,9 +85,14 @@ int main(int argc, char *argv[])
 			case 's':
 				list_id(optarg); //todo: fix better casting
 			break;
-			
+
+			case 'd':
+				remove_todo(atoi(optarg)); // todo: fix better casting
+			break;
+
 		}
 	}
+	return 0;
 }
 
 void help()
@@ -101,6 +113,40 @@ void add_todo(char string[])
 
 	printf("Added task with id %s:\t%s\n", id, string);
     free(id);
+}
+
+void remove_todo(int id)
+{
+	char id_string[32];
+	sprintf(id_string, "%i", id);
+	FILE *fp;
+	char *list_buffer;
+
+	fp = open_list("r");
+	fseek(fp, 0L, SEEK_END);
+	list_buffer = malloc(ftell(fp)*sizeof(char));
+	fseek(fp, 0L, SEEK_SET);
+
+	char line [4096]; // todo: define line buffer somewhere
+	while(fgets(line, sizeof(line), fp)){
+		if(!strstr(line, id_string)) {
+			if(list_buffer[0] == '\0') {
+				sprintf(list_buffer, "%s", line);
+			} else {
+				sprintf(list_buffer, "%s%s", list_buffer, line);
+			}
+		} else {
+			printf("Removed task %s", line);
+		}
+	}
+
+	fclose(fp);
+
+	fp = open_list("w");
+	fprintf(fp, "%s", list_buffer);
+	fclose(fp);
+
+	free(list_buffer);
 }
 
 void list_all()
@@ -135,7 +181,7 @@ FILE *open_list(char *mode)
 	fp = fopen("todofile", mode); // todo: define filename somewhere
 	if (fp == NULL) {
 		fprintf(stderr, "No tasks added\n");
-		return; // todo: exit
+		return NULL; // todo: exit
 	}
 	// file opened properly; return FILE pointer
 	return fp;
