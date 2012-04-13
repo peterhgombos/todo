@@ -1,6 +1,7 @@
 #include "todo.h"
 
-const char* mora[] = {"wa", "wi", "wu"  "we", "wo",
+#define MORA_LENGTH 45
+const char* mora[] = {"wa", "wi", "wu", "we", "wo",
                       "ra", "ri", "ru", "re", "ro",
                       "ya", "yi", "yu", "ye", "yo",
                       "ma", "mi", "mu", "me", "mo",
@@ -10,11 +11,29 @@ const char* mora[] = {"wa", "wi", "wu"  "we", "wo",
                       "sa", "si", "su", "se", "so",
                       "ka", "ki", "ku", "ke", "ko"};
 
-#define MORA_LENGTH 45
 
+/* generates an unused id according to the id scheme */
 char* generate_id(){
-    char* id = malloc(5*sizeof(char));
-    sprintf(id, "%s%s", mora[rand()%MORA_LENGTH], mora[rand()%MORA_LENGTH]);
+	FILE *fp;
+	fp = open_list("r");
+	char line[4096]; // todo: define line buffer somewhere
+    char* id = malloc(6*sizeof(char));
+    int done =0;
+    /* we just keep guessing at an unused id until we strike gold.
+     * todo: do this in a way that doesn't potentially run forever.
+     */
+    while(!done){
+        sprintf(id, "%s%s\t", mora[rand()%MORA_LENGTH], mora[rand()%MORA_LENGTH]);
+        fseek(fp, 0, SEEK_SET);
+        done = 1;
+        while(fp && fgets(line, sizeof(line), fp)){
+            if(strstr(line,id)){
+               done = 0; 
+            }
+        }
+    }
+	fclose(fp);
+    id[5]='\0';
     return id;
 }
 
@@ -25,7 +44,6 @@ int main(int argc, char *argv[])
 	int c;
 	unsigned int iseed = (unsigned int)time(NULL);
 	srand(iseed);
-
 
 	if(argc == 1){
 		list_all();
@@ -82,6 +100,7 @@ void add_todo(char string[])
 
 
 	printf("Added task with id %s:\t%s\n", id, string);
+    free(id);
 }
 
 void list_all()
@@ -89,7 +108,7 @@ void list_all()
 	FILE *fp;
 	fp = open_list("r");
 	char line[4096]; // todo: define line buffer somewhere
-	while(fgets(line, sizeof(line), fp)){
+	while(fp && fgets(line, sizeof(line), fp)){
 		printf("%s", line);
 	}
 	fclose(fp);
@@ -101,7 +120,7 @@ void list_id(char* id)
 	FILE *fp;
 	fp = open_list("r");
 	char line[4096]; // todo: define line buffer somewhere
-	while(fgets(line, sizeof(line), fp)){
+	while(fp && fgets(line, sizeof(line), fp)){
 		if(strstr(line,id)){
 			printf("%s", line);
 		}
