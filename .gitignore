@@ -3,3 +3,5 @@
 todofile
 todo
 Makefile
+autom4te.cache/
+config.log
