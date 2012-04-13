@@ -183,10 +183,11 @@ void list_id(char* id)
 FILE *open_list(char *mode)
 {
 	FILE *fp;
-	fp = fopen("todofile", mode); // todo: define filename somewhere
+	fp = fopen(FILENAME, mode); 
 	if (fp == NULL) {
-		fprintf(stderr, "No tasks added\n");
-		return NULL; // todo: exit
+        fp = fopen(FILENAME, "w");
+        fclose(fp);
+        return open_list(mode);
 	}
 	// file opened properly; return FILE pointer
 	return fp;
@@ -209,5 +210,6 @@ void search(char string[]) {
         if(regexec(&reg, line + 4, 0, NULL, 0) == 0)
             printf("%s", line);
     }
+    fclose(fp);
 }
 
