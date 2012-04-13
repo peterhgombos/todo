@@ -117,13 +117,20 @@ FILE *open_list(char *mode)
 
 /* search each line in todofile for pattern*/
 void search(char string[]) {
-    regext_t reg;
+    regex_t reg;
+    int err;
+    char err_msg[80];
 	FILE *fp;
     char line[4096];
 
-    regcomp(&reg, string, 0);
+    if((err = regcomp(&reg, string, REG_NOSUB)) != 0){
+        regerror(err, &reg, err_msg, 80);
+        printf("Error analyzing regular expression '%s': %s.\n", string, err_msg);
+    }
 	fp = open_list("r");
     while(fgets(line, sizeof(line), fp)){
+        if(regexec(&reg, line, 0, NULL, 0) == 0)
+            printf("%s", line);
     }
 }
 
