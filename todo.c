@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 			case 'l':
 				list_id(atoi(optarg)); //todo: fix better casting
 			break;
-			
+
 		}
 	}
 	return 0;
@@ -67,6 +67,38 @@ void add_todo(char string[])
 
 
 	printf("Added task with id %d:\t%s\n", id, string);
+}
+
+void remove_todo(int id)
+{
+	char id_string[32];
+	sprintf(id_string, "%i", id);
+	FILE *fp;
+	char *list_buffer;
+
+	fp = open_list("r");
+	fseek(fp, 0L, SEEK_END);
+	list_buffer = malloc(ftell(fp)*sizeof(char));
+	fseek(fp, 0L, SEEK_SET);
+
+	char line [4096]; // todo: define line buffer somewhere
+	while(fgets(line, sizeof(line), fp)){
+		if(!strstr(line, id_string)) {
+			if(list_buffer[0] == '\0') {
+				sprintf(list_buffer, "%s", line);
+			} else {
+				sprintf(list_buffer, "%s%s", list_buffer, line);
+			}
+		} else {
+			printf("Removed task %s", line);
+		}
+	}
+
+	fclose(fp);
+
+	fp = open_list("w");
+	fprintf(fp, "%s", list_buffer);
+	fclose(fp);
 }
 
 void list_all()
