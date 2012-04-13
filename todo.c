@@ -25,11 +25,6 @@ int main(int argc, char *argv[])
 	int c;
 	unsigned int iseed = (unsigned int)time(NULL);
 	srand(iseed);
-    int i = 0;
-    for(i=0;i<20;i++){
-        printf("%s\n", generate_id());
-    }
-    return 0;
 
 
 	if(argc == 1){
@@ -63,7 +58,7 @@ int main(int argc, char *argv[])
 			break;
 
 			case 's':
-				list_id(atoi(optarg)); //todo: fix better casting
+				list_id(optarg); //todo: fix better casting
 			break;
 			
 		}
@@ -78,15 +73,15 @@ void help()
 
 void add_todo(char string[])
 {
-    int id = (unsigned int)(rand()/100000.0); // todo: new id scheme
+    char* id = generate_id();
 
 	FILE *fp;
 	fp = open_list("ar");
-	fprintf(fp, "%d\t%s\n", id, string);
+	fprintf(fp, "%s\t%s\n", id, string);
 	fclose(fp);
 
 
-	printf("Added task with id %d:\t%s\n", id, string);
+	printf("Added task with id %s:\t%s\n", id, string);
 }
 
 void list_all()
@@ -101,15 +96,13 @@ void list_all()
 }
 
 // show task with given id. too naive now.
-void list_id(int id)
+void list_id(char* id)
 {
-	char id_string[32];
-	sprintf(id_string, "%i",id);
 	FILE *fp;
 	fp = open_list("r");
 	char line[4096]; // todo: define line buffer somewhere
 	while(fgets(line, sizeof(line), fp)){
-		if(strstr(line, id_string)){
+		if(strstr(line,id)){
 			printf("%s", line);
 		}
 	}
