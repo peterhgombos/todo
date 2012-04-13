@@ -223,7 +223,7 @@ void search(char string[]) {
 	fp = open_list("r");
     while(fgets(line, sizeof(line), fp)){
         if(regexec(&reg, line + 4, 0, NULL, 0) == 0)
-            printf("%s", line);
+            print_line_colored(line);
     }
     fclose(fp);
 }
