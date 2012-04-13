@@ -3,6 +3,8 @@
 #include <getopt.h>
 #include <string.h>
 #include <time.h>
+#include <sys/types.h>
+#include <regex.h>
 
 #include "todo.h"
 
@@ -113,6 +115,7 @@ FILE *open_list(char *mode)
 	return fp;
 }
 
+/* search each line in todofile for pattern*/
 void search(char string[]) {
 	FILE *fp;
 	fp = open_list("r");
