@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-c -g -Wall
+CFLAGS=-c -g -Wall -O2 -mtune=native
 LDFLAGS=
 SOURCES=todo.c
 OBJECTS=$(SOURCES:.c=.o)
