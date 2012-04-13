@@ -104,6 +104,8 @@ void remove_todo(int id)
 	fp = open_list("w");
 	fprintf(fp, "%s", list_buffer);
 	fclose(fp);
+
+	free(list_buffer);
 }
 
 void list_all()
