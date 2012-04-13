@@ -49,7 +49,7 @@ char* generate_id(){
 
 
 
-int main(int argc, char *argv[])
+int run(int argc, char *argv[])
 {
 	int c;
 	unsigned int iseed = (unsigned int)time(NULL);

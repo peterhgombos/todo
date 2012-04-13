@@ -3,6 +3,7 @@
 #define COLOR_RESET 0
 #define COLOR_GREEN 1
 
+int run(int argc, char**argv);
 void help();
 void add_todo(char string[]);
 void remove_todo(char*id);
