@@ -1,4 +1,4 @@
-#define FILENAME "todofile"
+#define FILENAME ".todofile"
 
 #define COLOR_RESET 0
 #define COLOR_GREEN 1
