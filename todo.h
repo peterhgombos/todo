@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <getopt.h>
-#include <string.h>
-
 void help();
 void add_todo(char string[]);
 void list_all();
