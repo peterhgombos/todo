@@ -4,4 +4,4 @@ void remove_todo(char*id);
 void list_all();
 void list_id(char*id);
 FILE *open_list(char*mode);
-
+void search(char string[]);
