@@ -3,6 +3,8 @@
 #include <getopt.h>
 #include <string.h>
 #include <time.h>
+#include <sys/types.h>
+#include <regex.h>
 
 #include "todo.h"
 
@@ -61,14 +63,15 @@ int main(int argc, char *argv[])
 	{
 		static struct option long_options[] =
 		{
-			{"help",	no_argument,		NULL,	'h'},
-			{"add",     required_argument,		NULL,	'a'},
+			{"help",	no_argument,			NULL,	'h'},
+			{"add",     	required_argument,		NULL,	'a'},
 			{"show",	required_argument,		NULL,	's'},
 			{"done",	required_argument,		NULL,	'd'},
+			{"list",	required_argument,		NULL,	'l'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long(argc, argv, "ha:s:d:", long_options, &option_index);
+		c = getopt_long(argc, argv, "ha:s:d:l:", long_options, &option_index);
 
 		if(c == -1)
 			break;
@@ -92,6 +95,10 @@ int main(int argc, char *argv[])
 				remove_todo(optarg); // todo: fix better casting
 			break;
 
+			case 'l':
+				search(optarg);
+			break;
+			
 		}
 	}
 	return 0;
@@ -191,12 +198,33 @@ void list_id(char* id)
 FILE *open_list(char *mode)
 {
 	FILE *fp;
-	fp = fopen("todofile", mode); // todo: define filename somewhere
+	fp = fopen(FILENAME, mode); 
 	if (fp == NULL) {
-		fprintf(stderr, "No tasks added\n");
-		return NULL; // todo: exit
+        fp = fopen(FILENAME, "w");
+        fclose(fp);
+        return open_list(mode);
 	}
 	// file opened properly; return FILE pointer
 	return fp;
+}
+
+/* search each line in todofile for pattern*/
+void search(char string[]) {
+    regex_t reg;
+    int err;
+    char err_msg[80];
+	FILE *fp;
+    char line[4096];
+
+    if((err = regcomp(&reg, string, REG_NOSUB|REG_EXTENDED)) != 0){
+        regerror(err, &reg, err_msg, 80);
+        printf("Error analyzing regular expression '%s': %s.\n", string, err_msg);
+    }
+	fp = open_list("r");
+    while(fgets(line, sizeof(line), fp)){
+        if(regexec(&reg, line + 4, 0, NULL, 0) == 0)
+            printf("%s", line);
+    }
+    fclose(fp);
 }
 
