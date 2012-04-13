@@ -179,9 +179,15 @@ void list_all()
 	FILE *fp;
 	fp = open_list("r");
 	char line[4096]; // todo: define line buffer somewhere
+    int counter = 0;
 	while(fp && fgets(line, sizeof(line), fp)){
         print_line_colored(line);
+        counter++;
 	}
+    if(!counter){
+        printf("No tasks.\n");
+        help();
+    }
 	fclose(fp);
 }
 
