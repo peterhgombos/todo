@@ -103,7 +103,7 @@ FILE *open_list(char *mode)
 	fp = fopen("todofile", mode); // todo: define filename somewhere
 	if (fp == NULL) {
 		fprintf(stderr, "No tasks added\n");
-		return; // todo: exit
+		return NULL; // todo: exit
 	}
 	// file opened properly; return FILE pointer
 	return fp;
