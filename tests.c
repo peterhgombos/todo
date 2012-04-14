@@ -21,14 +21,44 @@ void test(int (*fn)(void)){
     printf("Testing... ");
     printf("%s\n",S[(*fn)()]);
 }
+
 int test_help(){
+    printf("Help");
     return TEST_SUCCESS;
 }
-int test_add_todo(){return 0;}
-int test_remove_todo(){return 0;}
-int test_list_all(){return 0;}
-int test_list_id(){return 0;}
-int test_print_line_colored(){return 0;}
-int test_open_list(){return 0;}
-int test_search(){return 0;}
+
+int test_add_todo(){
+    printf("add todo");
+    return TEST_SUCCESS;
+}
+
+int test_remove_todo(){
+    printf("remove_todo");
+    return TEST_SUCCESS;
+}
+
+int test_list_all(){
+    printf("list all");
+    return TEST_SUCCESS;
+}
+
+int test_list_id(){
+    printf("list_id");
+    return TEST_SUCCESS;
+}
+
+int test_print_line_colored(){
+    printf("print_line_colored");
+    return TEST_SUCCESS;
+}
+
+int test_open_list(){
+    printf("open_list");
+    return TEST_SUCCESS;
+}
+
+int test_search(){
+    printf("search");
+    return TEST_SUCCESS;
+}
 
